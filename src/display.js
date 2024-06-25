@@ -8,6 +8,8 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import tableInfo from './tableInfo.json';
 import tableData from './tableData.json';
+import Header from './Header';
+import Footer from './Footer';
 
 export default function Display() {
 
@@ -27,6 +29,8 @@ export default function Display() {
   }
 
   return (
+    <>
+    <Header Heading="Entity List" />
     <div style={{marginTop:"5%"}}>
         <Grid >
           <Card>
@@ -48,5 +52,7 @@ export default function Display() {
           </Card>
         </Grid>
     </div>
+    <Footer />
+    </>
   );
 }
