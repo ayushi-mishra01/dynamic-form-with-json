@@ -1,0 +1,29 @@
+{
+    "users": [
+      {
+        "id": 1,
+        "username": "John Deo",
+        "email": "john.doe@example.com",
+        "phone": "+1234567890",
+        "address": "123 Main St, Anytown, USA",
+        "birthdate": "1990-05-15"
+      },
+      {
+        "id": 2,
+        "username": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "phone": "+1987654321",
+        "address": "456 Elm St, Anycity, USA",
+        "birthdate": "1985-08-20"
+      },
+      {
+        "id": 3,
+        "username": "Bob Jones",
+        "email": "bob.jones@example.com",
+        "phone": "+1122334455",
+        "address": "789 Oak Ave, Someplace, USA",
+        "birthdate": "1978-03-10"
+      }
+    ]
+  }
+  

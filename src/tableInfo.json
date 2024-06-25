@@ -1,0 +1,36 @@
+{
+    "tableName": "Users",
+    "fields": [
+      {
+        "fieldName": "id",
+        "displayName": "Id",
+        "type": "integer"
+      },
+      {
+        "fieldName": "username",
+        "displayName": "Name",
+        "type": "string"
+      },
+      {
+        "fieldName": "email",
+        "displayName": "Email",
+        "type": "string"
+      },
+      {
+        "fieldName": "phone",
+        "displayName": "Phone Number",
+        "type": "string"
+      },
+      {
+        "fieldName": "address",
+        "displayName": "Address",
+        "type": "string"
+      },
+      {
+        "fieldName": "birthdate",
+        "displayName": "Birth Date",
+        "type": "date"
+      }
+    ]
+  }
+  
