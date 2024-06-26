@@ -1,56 +1,91 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Tooltip from '@mui/material/Tooltip';
 import { Grid, Card, CardContent, Typography, TextField, Button } from '@mui/material';
-import tableInfo from './tableInfo.json';
+import axios from 'axios';
+import { local_url } from './Urls';
 
-const Input = () => {
+const InputForm = () => {
     const navigate = useNavigate();
+    const { tableName } = useParams();
 
-    const initialFormData = {};
-    tableInfo.fields.forEach(field => {
-        initialFormData[field.fieldName] = '';
-    });
+    const [fields, setFields] = useState([]);
+    const [formData, setFormData] = useState({});
 
-    const [formData, setFormData] = useState(initialFormData);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${local_url}/${tableName}`);
+                const tableData = response.data;
+
+                if (tableData.length > 0) {
+                    const firstRow = tableData[0];
+                    const fetchedFields = Object.keys(firstRow).map(key => ({
+                        fieldName: key,
+                        displayName: key
+                    }));
+
+                    const initialFormData = {};
+                    fetchedFields.forEach(field => {
+                        if (field.fieldName !== 'id') {
+                            initialFormData[field.fieldName] = '';
+                        }
+                    });
+
+                    setFields(fetchedFields);
+                    setFormData(initialFormData);
+                }
+            } catch (error) {
+                console.error('Error fetching table info:', error);
+            }
+        };
+
+        if (tableName) {
+            fetchData();
+        }
+    }, [tableName]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        setFormData(initialFormData);
-    }
-    
+        try {
+            const response = await axios.post(`${local_url}/${tableName}`, formData);
+            console.log('Data submitted successfully:', response.data);
+            navigate(`/table/${tableName}`);
+        } catch (error) {
+            console.error('Error submitting data:', error);
+        }
+    };
+
     return (
-        <Grid container justifyContent="center" style={{marginTop:"4%"}}>
+        <Grid container justifyContent="center" style={{ marginTop: "4%" }}>
             <Grid item xs={12} sm={8} md={6}>
                 <Card>
                     <CardContent>
-                        <Tooltip title="back" arrow="true">
-                           <Link to={`/`}  ><ArrowBackIcon /></Link>
+                        <Tooltip title="Back" arrow>
+                            <ArrowBackIcon onClick={() => navigate('/')} />
                         </Tooltip>
                         <Typography variant="h4" color="primary">
-                            Add User
+                            Input Form
                         </Typography>
                         <form onSubmit={handleSubmit}>
-                            {tableInfo.fields.map(field => (
-                                field.fieldName!=='id'?(
-                                <TextField
-                                    key={field.fieldName}
-                                    fullWidth
-                                    margin="normal"
-                                    label={field.displayName === 'Birth Date'? '': field.displayName}
-                                    name={field.fieldName}
-                                    type={field.type === 'date' ? 'date' : 'text'}
-                                    value={formData[field.fieldName]}
-                                    onChange={handleChange}
-                                />)
-                                :
-                                null
+                            {fields.map(field => (
+                                field.fieldName !== 'id' && (
+                                    <TextField
+                                        key={field.fieldName}
+                                        fullWidth
+                                        margin="normal"
+                                        label={field.displayName}
+                                        name={field.fieldName}
+                                        type="text"
+                                        value={formData[field.fieldName] || ''}
+                                        onChange={handleChange}
+                                    />
+                                )
                             ))}
                             <Button type="submit" variant="contained" color="primary">
                                 Submit
@@ -63,4 +98,4 @@ const Input = () => {
     );
 };
 
-export default Input;
+export default InputForm;
