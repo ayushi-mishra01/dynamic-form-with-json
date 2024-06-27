@@ -1,8 +1,9 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Grid, Card, CardContent, Typography } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import AddIcon from '@mui/icons-material/Add';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AgGridReact } from 'ag-grid-react'; 
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
@@ -30,11 +31,14 @@ export default function Display() {
 
   return (
     <>
-    <Header Heading="Entity List" />
-    <div style={{marginTop:"5%"}}>
+    <Header Heading="Table Details" />
+    <div style={{marginTop:"3%"}}>
         <Grid >
           <Card>
             <CardContent>
+              <Tooltip title="back" arrow="true">
+                <Link to={`/`}  ><ArrowBackIcon /></Link>
+              </Tooltip>
               <Typography variant="h4" color="primary" align="center">
                 {tableInfo.tableName}
               </Typography>
