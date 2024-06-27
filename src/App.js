@@ -1,7 +1,5 @@
 import React from 'react';
 import './App.css';
-import Header from './Header';
-import Footer from './Footer';
 import Display from './display';
 import Input from './inputForm';
 import EditForm from './editForm.js';
@@ -13,7 +11,6 @@ export default function App() {
   return (
     <div>
       <Router>
-        <Header/>
           <Routes>
             <Route path="/" element={<Entities/>} />
             <Route path="/display" element={<Display/>} />
@@ -21,7 +18,6 @@ export default function App() {
             <Route path="/add/:tableName" element={<Input/>} />
             <Route path="/edit/:tableName/:id" element={<EditForm/>} />
           </Routes>
-        <Footer/>
       </Router>
     </div>
   );
