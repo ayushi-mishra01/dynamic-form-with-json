@@ -1,13 +1,14 @@
+// src/Header.js
 import React, { useState } from 'react';
 import './style.css';
- 
+
 const Header = ({Heading}) => {
   const [isOpen, setIsOpen] = useState(false);
- 
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
- 
+
   return (
     <header className="header">
       <div className="logo">{Heading}</div>
@@ -24,5 +25,5 @@ const Header = ({Heading}) => {
     </header>
   );
 };
- 
+
 export default Header;
