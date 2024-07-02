@@ -6,7 +6,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #5a993e;
+    background-color: #8EB2C8;
     color: #fff;
   }
  
@@ -74,7 +74,7 @@
 .footer {
     width: 100%;
     padding: 10px 0;
-    background-color: #5a993e;;
+    background-color: #8EB2C8;
     color: #fff;  
     text-align: center;
     position: fixed;
@@ -118,6 +118,10 @@
     margin-left: 10px;
     cursor: pointer;
   }
+
+.modal-body{
+  padding: 20px;
+}
 .modal-container {
     position: fixed;
     top: 50%;
@@ -144,9 +148,10 @@
     border-bottom: 1px solid #aaa9a9;
     padding-left:10px;
     width: 1400px;
+    background-color: #f0f0f0;
 }
 h2{
-    color:  #5a993e;
+    color:  #8EB2C8;
 }
 .modal-body {
     padding: 20px;
@@ -195,14 +200,14 @@ body.modal-open::before {
   margin-left: 10px;
 }
 .custom-btn-primary {
-  color:  #5a993e;
+  color:  #8EB2C8;
   background-color: #f8f9fa;
-  border-color:  #5a993e;;
+  border-color:  #8EB2C8;;
   margin-top: 20px;
 }
 .custom-btn-primary:hover{
   color: #f8f9fa;
-  background-color:  #5a993e;
+  background-color:  #8EB2C8;
   border-color:  #f8f9fa;
  
 }
@@ -277,10 +282,11 @@ body.modal-open::before {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: #f0f0f0;
 }
 
 .form-title {
-  color: #5a993e;
+  color: #8EB2C8;
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 20px;
   font-size: 30px;
@@ -293,13 +299,12 @@ body.modal-open::before {
 
 .input-table {
   width: 100%;
-  border-collapse: collapse;
+  border:none;
   margin-bottom: 20px;
 }
 
 .input-table td, .input-table th {
   padding: 0.8em;
-  border: 1px solid #ddd;
   text-align: left;
 }
 
@@ -310,7 +315,7 @@ body.modal-open::before {
 
 .input-field {
   width: 100%;
-  height: 40px;
+  height: 50px;
   padding: 12px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -334,7 +339,7 @@ body.modal-open::before {
 .submit-button {
   margin-left: 30%;
   width: 30%;
-  background-color: #5a993e;
+  background-color: #8EB2C8;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -345,5 +350,73 @@ body.modal-open::before {
 }
 
 .submit-button:hover {
-  background-color: #609609;
+  background-color: #6798b6;
 }
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5em;
+  font-size: 1rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 0.5em;
+}
+
+.checkbox-label input[type="checkbox"]::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 3px;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"]:checked::before {
+  background-color: #8EB2C8;
+}
+
+.checkbox-label input[type="checkbox"]:checked + span {
+  color: #8EB2C8; 
+}
+
+.radio-group {
+  margin-bottom: 0.5em;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.radio-group input[type="radio"] {
+  margin-right: 0.5em; 
+}
+
+.radio-group input[type="radio"]::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 50%;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.radio-group input[type="radio"]:checked::before {
+  background-color: #8EB2C8; 
+}
+
+.error-message{
+  color: red;
+}
+

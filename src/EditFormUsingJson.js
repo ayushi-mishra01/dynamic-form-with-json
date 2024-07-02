@@ -8,31 +8,49 @@ import './style.css';
 import Header from './Header';
 import Footer from './Footer';
 import { TextField, MenuItem, Button, Checkbox } from '@mui/material';
-import Validation from './Validation';
 
-const InputForm = () => {
+const EditForm = () => {
     const navigate = useNavigate();
-    const { tableName } = useParams();
+    const { tableName, id } = useParams();
 
     const [fields, setFields] = useState([]);
     const [formData, setFormData] = useState({});
     const [dynamicDropdownOptions, setDynamicDropdownOptions] = useState({});
 
     useEffect(() => {
-        // const filteredFields = fieldData.mainTableFields.filter(field => field.name.toLowerCase() !== 'id');
-        // setFields(filteredFields);
+        if (id) {
+            axios.get(`${local_url}/GetEntityById/${tableName}/${id}`)
+                .then(response => {
+                    const recordToEdit = response.data;
+                    
+                    if (!recordToEdit) {
+                        console.error(`Record with id ${id} not found.`);
+                        return;
+                    }
 
-        setFields(fieldData.mainTableFields);
-
-        const initialFormData = {};
-        fieldData.mainTableFields.forEach(field => {
-            initialFormData[field.name] = '';
-            if (field.isPrimaryKey && (field.dataType==='Int32' || field.dataType==='Int62')) {
-                initialFormData[field.name] = 0;
+                    const initialFormData = {};
+                    fieldData.mainTableFields.forEach(field => {
+                        initialFormData[field.name] = recordToEdit[field.name];
+                    });
+                    setFormData(initialFormData);
+                })
+                .catch(error => {
+                    console.error('Error fetching data for editing:', error);
+                });
+        } else {
+            const initialFormData = {};
+            fieldData.mainTableFields.forEach(field => {
+                initialFormData[field.name] = '';
+                if (field.isPrimaryKey && (field.dataType==='Int32' || field.dataType==='Int62')) {
+                    initialFormData[field.name] = 0;
             }
-        });
-        setFormData(initialFormData);
-    }, [tableName]);
+            });
+            setFormData(initialFormData);
+        }
+
+        //const filteredFields = fieldData.mainTableFields.filter(field => field.name.toLowerCase() !== 'id');
+        setFields(fieldData.mainTableFields);
+    }, [tableName, id]);
 
     useEffect(() => {
         fields.forEach(field => {
@@ -42,33 +60,13 @@ const InputForm = () => {
         });
     }, [fields]);
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = async (e) => {
+        //console.log(e.target.value);
+        await setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleCheckboxChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.checked });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const validationError=Validation(fields, formData);
-        console.log("validation error:");
-        console.log(validationError);
-        if(validationError){
-            document.getElementById('valid').innerHTML=validationError;
-        }
-        else{
-            try {
-                console.log(formData);
-                const response = await axios.post(`${local_url}/${tableName}`, formData);
-                console.log('Data submitted successfully');
-                navigate(`/table/${tableName}`);
-            } catch (error) {
-                console.error('Error submitting data:', error);
-            }
-        }
     };
 
     const fetchDynamicDropdownOptions = async (field, foreignKeyTable) => {
@@ -90,6 +88,7 @@ const InputForm = () => {
     };
 
     const renderField = (field) => {
+       // console.log(formData);
         const { name, inputType, displayName, visibility, enability } = field;
 
         if (visibility !== 'Visible') return null;
@@ -125,13 +124,13 @@ const InputForm = () => {
                         name={name}
                         label={displayName}
                         variant="outlined"
-                        value={formData[name]}
+                        value={formData[name] || ''}
                         onChange={handleChange}
                         required={!field.isNullable}
                         disabled={enability === 'Disabled'}
                         className='input-field'
                     >
-                        <MenuItem value="">Select</MenuItem>
+                        <MenuItem value=''>Select</MenuItem>
                         {dynamicDropdownOptions[field.name] &&
                             Object.keys(dynamicDropdownOptions[field.name]).map(key => (
                                 <MenuItem key={key} value={key}>
@@ -190,8 +189,6 @@ const InputForm = () => {
                     </label>
                 );
             case 'Radio button':
-                // console.log("radio button:");
-                // console.log(formData[name]);
                 return (
                     <label>
                         <input
@@ -259,19 +256,32 @@ const InputForm = () => {
         );
     };
 
+    const handleSubmit = (e) => {
+        // console.log('form data');
+        // console.log(formData);
+        e.preventDefault();
+        axios.put(`${local_url}/${tableName}/${id}`, formData)
+            .then(response => {
+                console.log('Data updated successfully');
+                navigate(`/table/${tableName}`);
+            })
+            .catch(error => {
+                console.error('Error updating data:', error);
+            });
+    };
+
     return (
         <div>
-            <Header Heading="Input Form"/>
+            <Header Heading="Edit Form"/>
             <div className="input-form-container" >
                 <button style={{background:'transparent', border:'none'}} onClick={() => navigate(`/table/${tableName}`)}>
                     <ArrowBackIcon />
                 </button>
-                <h4 className="form-title">Input Form</h4>
+                <h4 className="form-title">Edit Form</h4>
                 <form onSubmit={handleSubmit} className="form">
                     <table className="input-table">
                         {renderFieldsByRows()}
                     </table>
-                    <div id="valid" style={{color:"red"}}></div>
                     <button type="submit" className="submit-button">Submit</button>
                 </form>
             </div>
@@ -280,4 +290,4 @@ const InputForm = () => {
     );
 };
 
-export default InputForm;
+export default EditForm;

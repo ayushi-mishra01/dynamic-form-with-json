@@ -3,7 +3,7 @@ import './App.css';
 import Display from './Display.js';
 //import Input from './InputForm.js';
 import Input from './InputFormUsingJson.js';
-import EditForm from './EditForm.js';
+import EditForm from './EditFormUsingJson.js';
 import Entities from './EntityList';
 import Table from './Table.js'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';

@@ -105,7 +105,7 @@ const InputForm = () => {
                         <Tooltip title="Back" arrow>
                             <ArrowBackIcon onClick={() => navigate(`/table/${tableName}`)} />
                         </Tooltip>
-                        <Typography variant="h4" color="#71BC0A">
+                        <Typography variant="h4" color="#8EB2C8">
                             Input Form
                         </Typography>
                         <form onSubmit={handleSubmit}>
