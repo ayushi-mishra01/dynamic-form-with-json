@@ -53,11 +53,14 @@ const InputForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(formData);
+        console.log(fields);
         const validationError=Validation(fields, formData);
         console.log("validation error:");
         console.log(validationError);
         if(validationError){
             document.getElementById('valid').innerHTML=validationError;
+            return;
         }
         else{
             try {
@@ -266,7 +269,7 @@ const InputForm = () => {
                 <button style={{background:'transparent', border:'none'}} onClick={() => navigate(`/table/${tableName}`)}>
                     <ArrowBackIcon />
                 </button>
-                <h4 className="form-title">Input Form</h4>
+                <h4 className="form-title">{`Input Form: ${tableName}`}</h4>
                 <form onSubmit={handleSubmit} className="form">
                     <table className="input-table">
                         {renderFieldsByRows()}

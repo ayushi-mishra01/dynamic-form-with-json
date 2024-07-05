@@ -9,9 +9,8 @@ import Header from './Header';
 import Footer from './Footer';
 import { TextField, MenuItem, Checkbox } from '@mui/material';
 import Validation from './Validation';
-import HeaderTable from './HeaderTable';
 
-const EditForm = () => {
+const HeaderTableEditForm = () => {
     const navigate = useNavigate();
     const { tableName, id } = useParams();
 
@@ -24,25 +23,28 @@ const EditForm = () => {
         if (id) {
             axios.get(`${local_url}/GetEntityById/${tableName}/${id}`)
                 .then(response => {
+                    console.log(response);
                     const recordToEdit = response.data;
-                    
+                    console.log(recordToEdit);
                     if (!recordToEdit) {
                         console.error(`Record with id ${id} not found.`);
                         return;
                     }
 
                     const initialFormData = {};
-                    fieldData.mainTableFields.forEach(field => {
+                    fieldData.childTableFields.fields.forEach(field => {
                         initialFormData[field.name] = recordToEdit[field.name];
                     });
+                    //console.log(initialFormData);
                     setFormData(initialFormData);
+                    console.log(formData);
                 })
                 .catch(error => {
                     console.error('Error fetching data for editing:', error);
                 });
         } else {
             const initialFormData = {};
-            fieldData.mainTableFields.forEach(field => {
+            fieldData.childTableFields.fields.forEach(field => {
                 initialFormData[field.name] = '';
                 if (field.isPrimaryKey && (field.dataType==='Int32' || field.dataType==='Int62')) {
                     initialFormData[field.name] = 0;
@@ -51,8 +53,8 @@ const EditForm = () => {
             setFormData(initialFormData);
         }
 
-        //const filteredFields = fieldData.mainTableFields.filter(field => field.name.toLowerCase() !== 'id');
-        setFields(fieldData.mainTableFields);
+        setFields(fieldData.childTableFields.fields);
+        //console.log(fieldData.childTableFields.fields)
     }, [tableName, id]);
 
     useEffect(() => {
@@ -271,7 +273,7 @@ const EditForm = () => {
             axios.put(`${local_url}/${tableName}/${id}`, formData)
                 .then(response => {
                     console.log('Data updated successfully');
-                    navigate(`/table/${tableName}`);
+                    // navigate(`/table/${tableName}`);
                 })
                 .catch(error => {
                     console.error('Error updating data:', error);
@@ -294,13 +296,12 @@ const EditForm = () => {
                     <div id="valid" style={{ color: "red" }}>{validationError}</div>
                     <button type="submit" className="submit-button">Submit</button>
                 </form>
-                {fieldData.childTableFields && <HeaderTable tablename={fieldData.childTableFields.tableName}/>}
             </div>
-            
+            {/* {fieldData.childTableFields.length>0 && <HeaderTable tableName={fieldData.childTableFields.tableName}/>} */}
             <div style={{marginTop:"5%"}}></div>
             <Footer/>
         </div>
     );
 };
 
-export default EditForm;
+export default HeaderTableEditForm;

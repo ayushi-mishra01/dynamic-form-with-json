@@ -147,7 +147,7 @@
 .modal-header {
     border-bottom: 1px solid #aaa9a9;
     padding-left:10px;
-    width: 1400px;
+    width: 1750px;
     background-color: #f0f0f0;
 }
 h2{
@@ -161,7 +161,7 @@ h2{
     padding: 5px;
     display: flex;
     justify-content: flex-end;
-    width: 1400px;
+    width: 1750px;
 }
  
 .modal-header .close-btn {
